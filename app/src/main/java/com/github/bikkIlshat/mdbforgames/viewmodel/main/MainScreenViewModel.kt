@@ -6,11 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.github.bikkIlshat.mdbforgames.model.base.ListItem
 import com.github.bikkIlshat.mdbforgames.model.game.*
 import com.github.bikkIlshat.mdbforgames.viewmodel.base.BaseViewModel
+import com.github.bikkilshat.core_network.di.NetworkComponent
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class MainScreenViewModel : BaseViewModel() {
+  private val api = NetworkComponent. createApi()
   private val _liveData = MutableLiveData<List<ListItem>>()
   val liveData: LiveData<List<ListItem>> = _liveData
 
@@ -23,49 +26,50 @@ class MainScreenViewModel : BaseViewModel() {
     }
   }
 
+  // Предзапуск (прогресс)
   private fun getLoaders(): List<ListItem> {
     return listOf(
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
-        title = "Wide games",
+        title = "Top upcoming",
         games = IntRange(1, 2).map { ProgressWideItem }
       ),
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
-        title = "Thin games",
+        title = "Latest release",
         games = IntRange(1, 3).map { ProgressThinItem }
       ),
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
-        title = "Wide games",
+        title = "The most rated in 2022",
         games = IntRange(1, 2).map { ProgressWideItem }
       )
     )
   }
 
   private suspend fun getItems(): List<ListItem> {
-    delay(2000L)
+    val response = api.games()
+    val gamesWide = response.results.map {
+      GameWideItem(
+        id = it.id,
+        title = it.title
+      )
+    }
+    val gamesThin = response.results.map {
+      GameThinItem(
+        id = it.id,
+        title = it.title
+      )
+    }
     return listOf(
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
         title = "Wide games",
-        games = IntRange(1, 20).map {
-          GameWideItem(
-            it.toLong(),
-            "Game Title $it")
-        }
+        games = gamesWide
       ),
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
         title = "Thin games",
-        games = IntRange(1, 20).map {
-          GameThinItem(
-            it.toLong(),
-            "Game Title $it")
-        }
+        games = gamesThin
       ),
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
         title = "Wide games",
-        games = IntRange(1, 20).map {
-          GameThinItem(
-            it.toLong(),
-            "Game Title $it")
-        }
+        games = gamesWide
       )
     )
   }
