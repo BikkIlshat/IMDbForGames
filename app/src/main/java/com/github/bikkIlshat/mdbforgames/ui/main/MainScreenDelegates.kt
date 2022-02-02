@@ -19,32 +19,26 @@ object MainScreenDelegates {
         ItemGamesHorizontalBinding.inflate(inflater, container, false) }
     ) {
       //onCreateViewHolder
-      binding.recyclerView.adapter = ListDelegationAdapter(
-        wideGameDelegate,
-        thinGameDelegate,
-        wideProgressDelegate,
-        thinProgressDelegate
-      )
+      val adapter = GamesCardsAdapter()
+      binding.recyclerView.adapter = adapter
       //onBindViewHolder
       bind {
         binding.titleTextView.text = item.title  // сетим title для категории
-        (binding.recyclerView.adapter as ListDelegationAdapter<List<ListItem>>).apply {
-          items = item.games
-          notifyDataSetChanged()
-        }
+        adapter.items = item.games
       }
+
       //onViewRecycled
       onViewRecycled {
         // что-то для освобождения ресурсов
       }
     }
-  private val wideProgressDelegate =
+   val wideProgressDelegate =
     adapterDelegateViewBinding<ProgressWideItem, ListItem, ItemProgressWideBinding>(
       { inflater, container ->
         ItemProgressWideBinding.inflate(inflater, container, false) }
     ) {}
 
-  private val wideGameDelegate =
+   val wideGameDelegate =
     adapterDelegateViewBinding<GameWideItem, ListItem, ItemGameWideBinding>(
       { inflater, container ->
         ItemGameWideBinding.inflate(inflater, container, false)
@@ -56,13 +50,13 @@ object MainScreenDelegates {
       }
     }
 
-  private val thinProgressDelegate =
+   val thinProgressDelegate =
     adapterDelegateViewBinding<ProgressThinItem, ListItem, ItemProgressThinBinding>(
       { inflater, container ->
         ItemProgressThinBinding.inflate(inflater, container, false) }
     ) {}
 
-  private val thinGameDelegate =
+   val thinGameDelegate =
     adapterDelegateViewBinding<GameThinItem, ListItem, ItemGameThinBinding>(
       { inflater, container ->
         ItemGameThinBinding.inflate(inflater, container, false)
