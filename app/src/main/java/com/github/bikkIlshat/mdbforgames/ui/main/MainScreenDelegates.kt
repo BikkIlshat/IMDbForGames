@@ -1,9 +1,8 @@
-package com.github.bikkIlshat.mdbforgames.main
+package com.github.bikkIlshat.mdbforgames.ui.main
 
-import com.github.bikkIlshat.mdbforgames.base.ListItem
-import com.github.bikkIlshat.mdbforgames.databinding.ItemGameThinBinding
-import com.github.bikkIlshat.mdbforgames.databinding.ItemGameWideBinding
-import com.github.bikkIlshat.mdbforgames.databinding.ItemGamesHorizontalBinding
+import com.github.bikkIlshat.mdbforgames.databinding.*
+import com.github.bikkIlshat.mdbforgames.model.base.ListItem
+import com.github.bikkIlshat.mdbforgames.model.game.*
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 
@@ -22,7 +21,9 @@ object MainScreenDelegates {
       //onCreateViewHolder
       binding.recyclerView.adapter = ListDelegationAdapter(
         wideGameDelegate,
-        thinGameDelegate
+        thinGameDelegate,
+        wideProgressDelegate,
+        thinProgressDelegate
       )
       //onBindViewHolder
       bind {
@@ -34,9 +35,14 @@ object MainScreenDelegates {
       }
       //onViewRecycled
       onViewRecycled {
-        // что-то для освобождения ресурсов 
+        // что-то для освобождения ресурсов
       }
     }
+  private val wideProgressDelegate =
+    adapterDelegateViewBinding<ProgressWideItem, ListItem, ItemProgressWideBinding>(
+      { inflater, container ->
+        ItemProgressWideBinding.inflate(inflater, container, false) }
+    ) {}
 
   private val wideGameDelegate =
     adapterDelegateViewBinding<GameWideItem, ListItem, ItemGameWideBinding>(
@@ -49,6 +55,12 @@ object MainScreenDelegates {
         binding.titleTextViewWide.text = item.title
       }
     }
+
+  private val thinProgressDelegate =
+    adapterDelegateViewBinding<ProgressThinItem, ListItem, ItemProgressThinBinding>(
+      { inflater, container ->
+        ItemProgressThinBinding.inflate(inflater, container, false) }
+    ) {}
 
   private val thinGameDelegate =
     adapterDelegateViewBinding<GameThinItem, ListItem, ItemGameThinBinding>(

@@ -1,14 +1,13 @@
-package com.github.bikkIlshat.mdbforgames.main
+package com.github.bikkIlshat.mdbforgames.ui.main
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.bikkIlshat.mdbforgames.R
 import com.github.bikkIlshat.mdbforgames.databinding.FragmentMainBinding
-import com.github.bikkIlshat.mdbforgames.mainviewmodel.main.MainScreenViewModel
+import com.github.bikkIlshat.mdbforgames.viewmodel.main.MainScreenViewModel
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 
 class MainFragment : Fragment(R.layout.fragment_main) {
