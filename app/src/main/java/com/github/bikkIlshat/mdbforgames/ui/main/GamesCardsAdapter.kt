@@ -10,9 +10,9 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 class GamesCardsAdapter : AsyncListDifferDelegationAdapter<ListItem>(BaseDiffUtilItemCallback()) {
   init {
     delegatesManager
-      .addDelegate(MainScreenDelegates.wideGameDelegate)
-      .addDelegate(MainScreenDelegates.thinGameDelegate)
-      .addDelegate(MainScreenDelegates.wideProgressDelegate)
-      .addDelegate(MainScreenDelegates.thinProgressDelegate)
+      .addDelegate(MainScreenDelegates.wideGameDelegate())
+      .addDelegate(MainScreenDelegates.thinGameDelegate())
+      .addDelegate(MainScreenDelegates.wideProgressDelegate())
+      .addDelegate(MainScreenDelegates.thinProgressDelegate())
   }
 }

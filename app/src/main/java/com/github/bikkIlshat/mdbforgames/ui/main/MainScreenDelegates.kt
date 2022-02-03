@@ -1,7 +1,11 @@
 package com.github.bikkIlshat.mdbforgames.ui.main
 
 import android.app.Activity
+import android.view.RoundedCorner
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.github.bikkIlshat.mdbforgames.R
 import com.github.bikkIlshat.mdbforgames.databinding.*
 import com.github.bikkIlshat.mdbforgames.model.base.ListItem
@@ -15,7 +19,7 @@ object MainScreenDelegates {
 
 
   // этот делегат который умеет отрисовывать вьюшку горизонтальным списком (item в вертикальном списке)
-  val gamesHorizontalDelegate =
+  fun gamesHorizontalDelegate() =
     adapterDelegateViewBinding<GamesHorizontalItem, ListItem, ItemGamesHorizontalBinding>(
       { inflater, container ->
         ItemGamesHorizontalBinding.inflate(inflater, container, false)
@@ -31,14 +35,14 @@ object MainScreenDelegates {
       }
 
     }
-  val wideProgressDelegate =
+  fun wideProgressDelegate() =
     adapterDelegateViewBinding<ProgressWideItem, ListItem, ItemProgressWideBinding>(
       { inflater, container ->
         ItemProgressWideBinding.inflate(inflater, container, false)
       }
     ) {}
 
-  val wideGameDelegate =
+  fun wideGameDelegate() =
     adapterDelegateViewBinding<GameWideItem, ListItem, ItemGameWideBinding>(
       { inflater, container ->
         ItemGameWideBinding.inflate(inflater, container, false)
@@ -52,7 +56,8 @@ object MainScreenDelegates {
             resources.getDimensionPixelOffset(R.dimen.game_card_wide_width),
             resources.getDimensionPixelOffset(R.dimen.game_card_wide_height)
           )
-          .centerCrop()
+          .transform(CenterCrop(),RoundedCorners(resources.getDimensionPixelOffset(R.dimen.game_card_radius)))// закруглялись что бы углы и размер картинки был верным
+          .transition(withCrossFade())// для плавности прокрутки карточек
           .into(binding.imageView)
         binding.titleTextViewWide.text = item.title
       }
@@ -65,14 +70,14 @@ object MainScreenDelegates {
       }
     }
 
-  val thinProgressDelegate =
+  fun thinProgressDelegate() =
     adapterDelegateViewBinding<ProgressThinItem, ListItem, ItemProgressThinBinding>(
       { inflater, container ->
         ItemProgressThinBinding.inflate(inflater, container, false)
       }
     ) {}
 
-  val thinGameDelegate =
+  fun thinGameDelegate() =
     adapterDelegateViewBinding<GameThinItem, ListItem, ItemGameThinBinding>(
       { inflater, container ->
         ItemGameThinBinding.inflate(inflater, container, false)
@@ -86,7 +91,8 @@ object MainScreenDelegates {
             resources.getDimensionPixelOffset(R.dimen.game_card_thin_width),
             resources.getDimensionPixelOffset(R.dimen.game_card_thin_height)
           )
-          .centerCrop()
+          .transform(CenterCrop(),RoundedCorners(resources.getDimensionPixelOffset(R.dimen.game_card_radius)))// закруглялись что бы углы и размер картинки был верным
+          .transition(withCrossFade())// для плавности прокрутки карточек
           .into(binding.imageView)
         binding.titleTextViewThin.text = item.title
       }

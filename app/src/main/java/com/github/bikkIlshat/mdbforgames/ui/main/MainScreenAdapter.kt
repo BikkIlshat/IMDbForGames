@@ -10,7 +10,7 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 class MainScreenAdapter : AsyncListDifferDelegationAdapter<ListItem>(BaseDiffUtilItemCallback()) {
 
 init {
-delegatesManager.addDelegate(MainScreenDelegates.gamesHorizontalDelegate)
+delegatesManager.addDelegate(MainScreenDelegates.gamesHorizontalDelegate())
 }
 
 }
