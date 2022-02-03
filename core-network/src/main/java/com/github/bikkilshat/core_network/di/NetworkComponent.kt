@@ -10,8 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 /***
  * Временная реализация пока нет Dagger2
  */
-private const val BASE_URL = "https://api.rawg.io/"
-
 interface NetworkComponent {
 
   companion object {
