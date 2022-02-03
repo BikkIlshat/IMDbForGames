@@ -29,7 +29,7 @@ class MainScreenViewModel : BaseViewModel() {
   private fun getLoaders(): List<ListItem> {
     return listOf(
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
-        title = "The most anticipated",
+        title = "Top upcoming",
         games = IntRange(1, 2).map { ProgressWideItem }
       ),
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
@@ -44,57 +44,31 @@ class MainScreenViewModel : BaseViewModel() {
   }
 
   private suspend fun getItems(): List<ListItem> {
-    val mostAnticipatedResponse = api.games(
-      mapOf(
-        "dates" to "2020-05-16,2021-05-16",
-        "ordering" to "-added"
-      )
-    )
-    val latestReleasesResponse = api.games(
-      mapOf(
-        "dates" to "2020-04-01,2020-05-16"
-      )
-    )
-    val mostRatedResponse = api.games(
-      mapOf(
-        "dates" to "2020-01-01,2020-05-16",
-        "ordering" to "-rated"
-      )
-    )
-
-    val mostAnticipatedItems = mostAnticipatedResponse.results.map {
+    val response = api.games()
+    val gamesWide = response.results.map {
       GameWideItem(
         id = it.id,
-        title = it.title,
-        image = it.image
+        title = it.title
       )
     }
-    val latestReleasesItems = latestReleasesResponse.results.map {
+    val gamesThin = response.results.map {
       GameThinItem(
         id = it.id,
-        title = it.title,
-        image = it.image
-      )
-    }
-    val mostRatedItems = mostRatedResponse.results.map {
-      GameWideItem(
-        id = it.id,
-        title = it.title,
-        image = it.image
+        title = it.title
       )
     }
     return listOf(
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
-        title = "The most anticipated",
-        games = mostAnticipatedItems
+        title = "Wide games",
+        games = gamesWide
       ),
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
-        title = "Latest release",
-        games = latestReleasesItems
+        title = "Thin games",
+        games = gamesThin
       ),
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
-        title = "The most rated in 2022",
-        games = mostRatedItems
+        title = "Wide games",
+        games = gamesWide
       )
     )
   }
