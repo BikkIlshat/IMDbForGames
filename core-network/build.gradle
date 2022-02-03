@@ -3,6 +3,9 @@ plugins {
   id 'org.jetbrains.kotlin.android'
   id 'kotlin-kapt'
 }
+def localPropertiesFile = rootProject.file("app.properties")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
   compileSdk 31
@@ -21,6 +24,12 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
   }
+  defaultConfig {
+
+    buildConfigField "String", "API_KEY", localProperties['apiKey']
+
+  }
+
 
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
@@ -47,6 +56,12 @@ dependencies {
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
 
 
+  //Dagger
+  implementation "com.google.dagger:dagger:2.40"
+  implementation "com.google.dagger:dagger-android:2.38.1"
+  implementation "com.google.dagger:dagger-android-support:2.38.1"
+  kapt "com.google.dagger:dagger-compiler:2.40"
+  kapt "com.google.dagger:dagger-android-processor:2.38.1"
 
   //Test
   testImplementation 'junit:junit:4.13.2'

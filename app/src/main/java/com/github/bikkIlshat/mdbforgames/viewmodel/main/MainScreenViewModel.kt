@@ -3,14 +3,20 @@ package com.github.bikkIlshat.mdbforgames.viewmodel.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.github.bikkIlshat.mdbforgames.R
 import com.github.bikkIlshat.mdbforgames.model.base.ListItem
 import com.github.bikkIlshat.mdbforgames.model.game.*
+import com.github.bikkIlshat.mdbforgames.util.ResourceProvider
 import com.github.bikkIlshat.mdbforgames.viewmodel.base.BaseViewModel
 import com.github.bikkilshat.core_network.di.NetworkComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainScreenViewModel : BaseViewModel() {
+class MainScreenViewModel @Inject constructor(
+  private val resources: ResourceProvider,
+
+): BaseViewModel() {
 
   private val api = NetworkComponent.createApi()
   private val _liveData = MutableLiveData<List<ListItem>>()
@@ -29,15 +35,15 @@ class MainScreenViewModel : BaseViewModel() {
   private fun getLoaders(): List<ListItem> {
     return listOf(
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
-        title = "Top upcoming",
+        title = resources.string(R.string.most_anticipated),
         games = IntRange(1, 2).map { ProgressWideItem }
       ),
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
-        title = "Latest release",
+        title = resources.string(R.string.latest_releases),
         games = IntRange(1, 3).map { ProgressThinItem }
       ),
       GamesHorizontalItem( // реализовали горизонтальный список внутри вертикального
-        title = "The most rated in 2022",
+        title = resources.string(R.string.most_rated_in_2021),
         games = IntRange(1, 2).map { ProgressWideItem }
       )
     )

@@ -5,13 +5,17 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.bikkIlshat.mdbforgames.DI
 import com.github.bikkIlshat.mdbforgames.R
 import com.github.bikkIlshat.mdbforgames.databinding.FragmentMainBinding
+import com.github.bikkIlshat.mdbforgames.viewmodel.main.DaggerMainScreenComponent
+import com.github.bikkIlshat.mdbforgames.viewmodel.main.MainScreenComponent
 import com.github.bikkIlshat.mdbforgames.viewmodel.main.MainScreenViewModel
 
 class MainFragment : Fragment(R.layout.fragment_main) {
+  private val component by lazy { MainScreenComponent.create()}
   private val viewBinding: FragmentMainBinding by viewBinding()
-  private val viewModel by viewModels<MainScreenViewModel>()
+  private val viewModel by viewModels<MainScreenViewModel>{component.viewModelFactory()}
 
   private val adapterDelegate = MainScreenAdapter()
 
@@ -26,5 +30,4 @@ class MainFragment : Fragment(R.layout.fragment_main) {
       }
     }
   }
-
 }
