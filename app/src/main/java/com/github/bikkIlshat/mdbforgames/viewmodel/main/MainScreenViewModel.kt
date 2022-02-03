@@ -7,13 +7,12 @@ import com.github.bikkIlshat.mdbforgames.model.base.ListItem
 import com.github.bikkIlshat.mdbforgames.model.game.*
 import com.github.bikkIlshat.mdbforgames.viewmodel.base.BaseViewModel
 import com.github.bikkilshat.core_network.di.NetworkComponent
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class MainScreenViewModel : BaseViewModel() {
-  private val api = NetworkComponent. createApi()
+
+  private val api = NetworkComponent.createApi()
   private val _liveData = MutableLiveData<List<ListItem>>()
   val liveData: LiveData<List<ListItem>> = _liveData
 

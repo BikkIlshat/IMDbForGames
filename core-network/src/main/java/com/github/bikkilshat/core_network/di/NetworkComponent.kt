@@ -12,37 +12,24 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 private const val BASE_URL = "https://api.rawg.io/"
 
-class NetworkComponent {
+interface NetworkComponent {
+
   companion object {
     private const val BASE_URL = "https://api.rawg.io/"
 
-
-    fun createApi(): RawgApi {
-      return Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(
-          OkHttpClient.Builder()
-            .addInterceptor { chain ->
-              val original = chain.request()
-              val request = original.newBuilder()
-                .header("api_key", "c06cc4f7d33a4d9f96f930573d2d7326")
-                .method(original.method, original.body)
-                .build()
-              chain.proceed(request)
-            }
-            .addInterceptor(HttpLoggingInterceptor().apply {
-              level =
-                if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
-                else HttpLoggingInterceptor.Level.NONE
-            })
-            .build()
-        )
-        .build()
-        .create(RawgApi::class.java)
-    }
+    fun createApi(): RawgApi = Retrofit.Builder()
+      .baseUrl(BASE_URL)
+      .addConverterFactory(GsonConverterFactory.create())
+      .client(
+        OkHttpClient.Builder()
+          .addInterceptor(HttpLoggingInterceptor().apply {
+            level =
+              if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+              else HttpLoggingInterceptor.Level.NONE
+          })
+          .build()
+      )
+      .build()
+      .create(RawgApi::class.java)
   }
-
- }
-
-
+}
