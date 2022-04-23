@@ -8,16 +8,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.bikkIlshat.mdbforgames.R
 import com.github.bikkIlshat.mdbforgames.databinding.FragmentMainBinding
 import com.github.bikkIlshat.mdbforgames.viewmodel.main.MainScreenViewModel
-import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 
 class MainFragment : Fragment(R.layout.fragment_main) {
   private val viewBinding: FragmentMainBinding by viewBinding()
   private val viewModel by viewModels<MainScreenViewModel>()
 
-  private val adapterDelegate =
-    ListDelegationAdapter(//  родительский адаптер внутри которого остальные
-      MainScreenDelegates.gamesHorizontalDelegate
-    )
+  private val adapterDelegate = MainScreenAdapter()
 
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -26,10 +22,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
       recyclerView.adapter = adapterDelegate
 
       viewModel.liveData.observe(viewLifecycleOwner) {
-        adapterDelegate.apply {
-          items = it
-          notifyDataSetChanged()
-        }
+        adapterDelegate.items = it
       }
     }
   }
